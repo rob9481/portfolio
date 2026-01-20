@@ -2,6 +2,8 @@
 
 ## Exercises
 
+- [EvenPalindromes](exercises/EvenPalindromes.cpp): Quickly written implementation for finding all even 8-digit palindromes.
+  - https://interviewing.io/mocks/spotify-java-even-palindrome-generator
 - [SleepySort](exercises/SleepySort.cpp): Sort by the amount of time a thread sleeps.
 
 ## Projects
