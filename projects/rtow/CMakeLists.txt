@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 3.10)
 project(rtow)
 
+find_package(Threads)
 set(CMAKE_CXX_STANDARD 20)
 
 add_executable(rtow
@@ -16,5 +17,9 @@ add_executable(rtow
   Ray.h
   Sphere.cpp
   Sphere.h
+  ThreadPool.h
+  ThreadPool.cpp
   Vec3.h
   main.cpp)
+
+target_link_libraries(rtow PUBLIC Threads::Threads)
