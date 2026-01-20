@@ -8,6 +8,7 @@
 
 ## Projects
 
+- [Breakneck](projects/breakneck): A silly little multithreaded elevator simulator
 - [Ray Tracing in One Weekend](projects/rtow)
   - `cmake -B build -S projects/rtow && cmake --build build && ./build/rtow > image.ppm`
   - Based on <https://raytracing.github.io/books/RayTracingInOneWeekend.html>
