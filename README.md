@@ -13,3 +13,6 @@
 - [Ray Tracing in One Weekend](projects/rtow)
   - `cmake -B build -S projects/rtow && cmake --build build && ./build/rtow > image.ppm`
   - Based on <https://raytracing.github.io/books/RayTracingInOneWeekend.html>
+- [Teeny Tiny Compiler](src/ttc)
+  - `cmake -B build -S projects/ttc && cmake --build build && ./build/ttc && gcc out.c && ./a.out`
+  - Based on <https://austinhenley.com/blog/teenytinycompiler1.html>
