@@ -4,6 +4,7 @@
 #include "HittableList.h"
 #include "Material.h"
 #include "Sphere.h"
+#include "ThreadPool.h"
 #include <iostream>
 
 // The depth param is necessary to stop the function from recursing,
@@ -88,9 +89,9 @@ int main() {
   //   width height
   //   max_color
   //   <width x height grid of RGB colors>
-  const double aspectRatio = 3.0 / 2.0;
-  const int image_width = 1200;
-  const int image_height = static_cast<int>(image_width / aspectRatio);
+  constexpr double aspectRatio = 3.0 / 2.0;
+  constexpr int image_width = 1200;
+  constexpr int image_height = static_cast<int>(image_width / aspectRatio);
   const int max_color = 255;
   const int maxDepth = 50;
   const int samplesPerPixel = 500;
@@ -108,23 +109,45 @@ int main() {
   const HittableList world = randomScene();
 
   // Render
+  ThreadPool tp;
+  tp.start();
+  auto colors =
+      std::make_unique<std::array<Color, image_width * image_height>>();
+  int idx = 0;
+
+  for (int j = image_height - 1; j >= 0; --j) {
+    for (int i = 0; i < image_width; ++i) {
+      tp.addJob(
+          [i, j, idx, image_width, image_height, &camera, &colors, &world] {
+            Color pixelColor(0, 0, 0);
+            for (int sample = 0; sample < samplesPerPixel; ++sample) {
+              const double u = (i + random_double()) / (image_width - 1);
+              const double v = (j + random_double()) / (image_height - 1);
+              const Ray ray = camera.getRay(u, v);
+              pixelColor += rayColor(ray, world, maxDepth);
+            }
+            colors->at(idx) = pixelColor;
+          });
+      ++idx;
+    }
+  }
+
+  int numJobs = tp.numJobs();
+  while (tp.numJobs() > 0) {
+    using namespace std::chrono_literals;
+    std::cerr << "\rJobs remaining: " << numJobs << std::flush;
+    std::this_thread::sleep_for(1s);
+    numJobs = tp.numJobs();
+  }
+
+  // Write
   std::cout << "P3\n"
             << image_width << ' ' << image_height << '\n'
             << max_color << '\n';
 
-  for (int j = image_height - 1; j >= 0; --j) {
-    std::cerr << "\rScanlines remaining: " << j << ' ' << std::flush;
-    for (int i = 0; i < image_width; ++i) {
-      Color pixelColor(0, 0, 0);
-      for (int sample = 0; sample < samplesPerPixel; ++sample) {
-        const double u = (i + random_double()) / (image_width - 1);
-        const double v = (j + random_double()) / (image_height - 1);
-        const Ray ray = camera.getRay(u, v);
-        pixelColor += rayColor(ray, world, maxDepth);
-      }
-      writeColor(std::cout, pixelColor, samplesPerPixel);
-    }
-  }
+  for (const auto &color : *colors)
+    writeColor(std::cout, color, samplesPerPixel);
+
   std::cerr << "\nDone.\n";
 
   return 0;
