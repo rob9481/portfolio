@@ -3,3 +3,6 @@ build/
 
 # rtow
 image.ppm
+
+# ttc
+out.c
