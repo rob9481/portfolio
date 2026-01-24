@@ -1,9 +1,9 @@
 #ifndef TOKEN_H_INCLUDED
 #define TOKEN_H_INCLUDED
 
+#include "Util.h"
 #include <optional>
 #include <string>
-#include "Util.h"
 
 #define LIST_OF_TOKEN_KINDS                                                    \
   X(Eof, -1)                                                                   \

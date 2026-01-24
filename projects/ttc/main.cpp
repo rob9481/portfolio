@@ -1,7 +1,7 @@
-#include <iostream>
 #include "Lexer.h"
 #include "Parser.h"
 #include "Token.h"
+#include <iostream>
 
 int main() {
   const auto input = R"(

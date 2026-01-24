@@ -1,9 +1,9 @@
+#include "Lexer.h"
+#include "Token.h"
 #include <cctype>
 #include <iostream>
 #include <iterator>
 #include <set>
-#include "Lexer.h"
-#include "Token.h"
 
 Lexer::Lexer(std::string source) {
   _source = source + '\n';
