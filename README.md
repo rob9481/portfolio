@@ -10,6 +10,10 @@
 ## Projects
 
 - [Breakneck](projects/breakneck): A silly little multithreaded elevator simulator
+- [MLxx](projects/mlxx): An exceedingly small subset of the OCaml frontend in C++
+  - `cmake -B build -S projects/mlxx && cmake --build build && ./build/mlxx`
+  - Ref: <https://craftinginterpreters.com/>
+  - Ref: <https://ruslanspivak.com/lsbasi-part1/>
 - [Ray Tracing in One Weekend](projects/rtow)
   - `cmake -B build -S projects/rtow && cmake --build build && ./build/rtow > image.ppm`
   - Based on <https://raytracing.github.io/books/RayTracingInOneWeekend.html>
