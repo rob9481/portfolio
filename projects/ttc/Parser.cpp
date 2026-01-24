@@ -1,6 +1,6 @@
-#include <iterator>
 #include "Parser.h"
 #include "Token.h"
+#include <iterator>
 
 Parser::Parser(Emitter &emitter, Lexer &lexer)
     : _curToken("\0", TokenKind::Eof), _peekToken("\0", TokenKind::Eof) {

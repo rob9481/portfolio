@@ -4,68 +4,65 @@
 #include <atomic>
 #include <cassert>
 #include <condition_variable>
+#include <optional>
 #include <thread>
 #include <vector>
-#include <optional>
 
 class Elevator final {
-    std::condition_variable mCondVar;
-    mutable std::mutex mMutex;
-    std::atomic_bool mJoinThread;
-    std::thread mThread;
+  std::condition_variable mCondVar;
+  mutable std::mutex mMutex;
+  std::atomic_bool mJoinThread;
+  std::thread mThread;
 
-    const int mId;
-    std::atomic_int mFloorNum;
-    const int mMinFloor;
-    const int mMaxFloor;
+  const int mId;
+  std::atomic_int mFloorNum;
+  const int mMinFloor;
+  const int mMaxFloor;
 
-  public:
-    typedef std::vector<int> Queue;
-    typedef Queue::difference_type FloorDiffType;
-    enum class Direction { Up, Down, Stand, Maintenance };
+public:
+  typedef std::vector<int> Queue;
+  typedef Queue::difference_type FloorDiffType;
+  enum class Direction { Up, Down, Stand, Maintenance };
 
-  private:
-    Direction mDirection;
-    Queue mNextFloorQueue; // INVARIANT must always be sorted
+private:
+  Direction mDirection;
+  Queue mNextFloorQueue; // INVARIANT must always be sorted
 
-  private:
-    std::optional<FloorDiffType> distToQueuedFloor(int num) const;
+private:
+  std::optional<FloorDiffType> distToQueuedFloor(int num) const;
 
-    void goToFloor(int num);
+  void goToFloor(int num);
 
-    void moveTo(int destFloor);
+  void moveTo(int destFloor);
 
-    void openDoor();
+  void openDoor();
 
-    void start();
+  void start();
 
-    bool validFloor(int num) const;
+  bool validFloor(int num) const;
 
-  public:
-    Elevator(int id, int startFloor, int minFloor, int maxFloor);
+public:
+  Elevator(int id, int startFloor, int minFloor, int maxFloor);
 
-    Elevator(const Elevator&) = delete;
+  Elevator(const Elevator &) = delete;
 
-    Elevator& operator=(const Elevator&) = delete;
+  Elevator &operator=(const Elevator &) = delete;
 
-    Elevator(Elevator&&) = delete;
+  Elevator(Elevator &&) = delete;
 
-    Elevator& operator=(Elevator&&) = delete;
+  Elevator &operator=(Elevator &&) = delete;
 
-    ~Elevator();
+  ~Elevator();
 
-    std::optional<FloorDiffType> addFloor(int floorNum, bool now);
+  std::optional<FloorDiffType> addFloor(int floorNum, bool now);
 
-    std::optional<FloorDiffType> addFloorIfInPath(int destFloor);
+  std::optional<FloorDiffType> addFloorIfInPath(int destFloor);
 
-    std::optional<FloorDiffType>
-    distToFloor(int num, const Direction&) const;
+  std::optional<FloorDiffType> distToFloor(int num, const Direction &) const;
 
-    Direction getDirection() const;
+  Direction getDirection() const;
 };
 
-inline Elevator::Direction Elevator::getDirection() const {
-    return mDirection;
-}
+inline Elevator::Direction Elevator::getDirection() const { return mDirection; }
 
 #endif // ELEVATOR_H

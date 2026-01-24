@@ -1,9 +1,9 @@
 #ifndef PARSER_H_INCLUDED
 #define PARSER_H_INCLUDED
 
-#include <set>
 #include "Emitter.h"
 #include "Lexer.h"
+#include <set>
 
 /*
  * Grammar

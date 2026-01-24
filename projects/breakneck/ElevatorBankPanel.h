@@ -4,14 +4,14 @@
 class ElevatorScheduler;
 
 class ElevatorBankPanel {
-    const int mFloorNum;
-    ElevatorScheduler* const mElevatorScheduler;
+  const int mFloorNum;
+  ElevatorScheduler *const mElevatorScheduler;
 
-  public:
-    enum class Direction { Up, Down };
+public:
+  enum class Direction { Up, Down };
 
-    ElevatorBankPanel(int floorNum, ElevatorScheduler*);
+  ElevatorBankPanel(int floorNum, ElevatorScheduler *);
 
-    bool pushButton(const Direction& dir);
+  bool pushButton(const Direction &dir);
 };
 #endif // ELEVATOR_BANK_PANEL_H

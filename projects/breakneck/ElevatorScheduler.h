@@ -1,33 +1,33 @@
 #ifndef ELEVATOR_SCHEDULER_H
 #define ELEVATOR_SCHEDULER_H
 
-#include <vector>
 #include "Elevator.h"
+#include <vector>
 
 class ElevatorScheduler {
-    // struct ElevatorInfo {
-    //     Elevator::FloorDiffType dist;
-    //     Elevator::Queue::size_type queueSz;
-    //     Elevator* elev;
-    // };
-    typedef std::pair<Elevator::FloorDiffType, Elevator*> DiffElevPair;
+  // struct ElevatorInfo {
+  //     Elevator::FloorDiffType dist;
+  //     Elevator::Queue::size_type queueSz;
+  //     Elevator* elev;
+  // };
+  typedef std::pair<Elevator::FloorDiffType, Elevator *> DiffElevPair;
 
-    std::vector<std::unique_ptr<Elevator>> mElevators;
+  std::vector<std::unique_ptr<Elevator>> mElevators;
 
-  public:
-    ElevatorScheduler();
+public:
+  ElevatorScheduler();
 
-    ElevatorScheduler(const ElevatorScheduler&) = delete;
+  ElevatorScheduler(const ElevatorScheduler &) = delete;
 
-    ElevatorScheduler& operator=(const ElevatorScheduler&) = delete;
+  ElevatorScheduler &operator=(const ElevatorScheduler &) = delete;
 
-    ElevatorScheduler(ElevatorScheduler&&) = delete;
+  ElevatorScheduler(ElevatorScheduler &&) = delete;
 
-    ElevatorScheduler& operator=(ElevatorScheduler&&) = delete;
+  ElevatorScheduler &operator=(ElevatorScheduler &&) = delete;
 
-    ~ElevatorScheduler() = default;
+  ~ElevatorScheduler() = default;
 
-    bool requestElevator(int floorNum, const Elevator::Direction& dir);
+  bool requestElevator(int floorNum, const Elevator::Direction &dir);
 };
 
 #endif // ELEVATOR_SCHEDULER_H
