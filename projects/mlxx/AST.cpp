@@ -25,9 +25,9 @@ auto ValueName::visit(Visitor &visitor) const -> void {
     visitor.accept(*this);
 }
 
-LetBinding::LetBinding(ValueName *valueName, Expr *expr) {
-    valueName_ = valueName;
-    expr_ = expr;
+LetBinding::LetBinding(std::unique_ptr<ValueName>&& valueName, std::unique_ptr<Expr>&& expr) {
+    valueName_ = std::move(valueName);
+    expr_ = std::move(expr);
 }
 
 auto LetBinding::toString() const -> std::string {
@@ -38,8 +38,8 @@ auto LetBinding::visit(Visitor &visitor) const -> void {
     visitor.accept(*this);
 }
 
-ExprConstant::ExprConstant(Constant *constant) {
-    constant_ = constant;
+ExprConstant::ExprConstant(std::unique_ptr<Constant>&& constant) {
+    constant_ = std::move(constant);
 }
 
 auto ExprConstant::toString() const -> std::string {
@@ -50,10 +50,10 @@ auto ExprConstant::visit(Visitor &visitor) const -> void {
     visitor.accept(*this);
 }
 
-ExprLet::ExprLet(bool rec, LetBinding *letBinding, Expr *expr) {
+ExprLet::ExprLet(bool rec, std::unique_ptr<LetBinding>&& letBinding, std::unique_ptr<Expr>&& expr) {
     rec_ = rec;
-    letBinding_ = letBinding;
-    expr_ = expr;
+    letBinding_ = std::move(letBinding);
+    expr_ = std::move(expr);
 }
 
 auto ExprLet::toString() const -> std::string {

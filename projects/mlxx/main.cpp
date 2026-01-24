@@ -74,7 +74,7 @@ int main() {
         Lexer lexer(input);
         std::cout << "INPUT:      " << input << '\n';
 
-        const auto *ast = Parser(&lexer).parse();
+        auto ast = Parser(&lexer).parse();
         std::cout << "AST OUTPUT: " << ast->toString() << '\n';
 
         PrettyPrinter pp;

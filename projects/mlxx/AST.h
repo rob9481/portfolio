@@ -1,6 +1,7 @@
 #ifndef AST_H
 #define AST_H
 
+#include <memory>
 #include <string>
 #include "Token.h"
 
@@ -43,44 +44,44 @@ class Expr : public Root {};
 
 class LetBinding : public Root {
 public:
-    LetBinding(ValueName *valueName, Expr *expr);
+    LetBinding(std::unique_ptr<ValueName>&& valueName, std::unique_ptr<Expr>&& expr);
     auto toString() const -> std::string override;
     auto visit(Visitor &visitor) const -> void override;
 
-    auto getValueName() const -> ValueName const * { return valueName_; }
-    auto getExpr() const -> Expr const * { return expr_; }
+    auto getValueName() const -> ValueName const * { return valueName_.get(); }
+    auto getExpr() const -> Expr const * { return expr_.get(); }
 
 private:
-    ValueName *valueName_;
-    Expr *expr_;
+    std::unique_ptr<ValueName> valueName_;
+    std::unique_ptr<Expr> expr_;
 };
 
 class ExprConstant : public Expr {
 public:
-    ExprConstant(Constant *constant);
+    ExprConstant(std::unique_ptr<Constant>&& constant);
     auto toString() const -> std::string override;
     auto visit(Visitor &visitor) const -> void override;
 
-    auto getConstant() const -> Constant const * { return constant_; }
+    auto getConstant() const -> Constant const * { return constant_.get(); }
 
 private:
-    Constant *constant_;
+    std::unique_ptr<Constant> constant_;
 };
 
 class ExprLet : public Expr {
 public:
-    ExprLet(bool rec, LetBinding *letBinding, Expr *expr);
+    ExprLet(bool rec, std::unique_ptr<LetBinding>&& letBinding, std::unique_ptr<Expr>&& expr);
     auto toString() const -> std::string override;
     auto visit(Visitor &visitor) const -> void override;
 
     auto getRec() const -> bool { return rec_; }
-    auto getLetBinding() const -> LetBinding const * { return letBinding_; }
-    auto getExpr() const -> Expr const * { return expr_; }
+    auto getLetBinding() const -> LetBinding const * { return letBinding_.get(); }
+    auto getExpr() const -> Expr const * { return expr_.get(); }
 
 private:
     bool rec_;
-    LetBinding *letBinding_;
-    Expr *expr_;
+    std::unique_ptr<LetBinding> letBinding_;
+    std::unique_ptr<Expr> expr_;
 };
 
 class Visitor {
