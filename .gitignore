@@ -7,3 +7,6 @@ image.ppm
 
 # ttc
 out.c
+
+# rust
+target/
