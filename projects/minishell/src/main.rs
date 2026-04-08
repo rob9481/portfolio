@@ -21,7 +21,7 @@ fn main() -> Result<(), Box<dyn Error>> {
         }
     }
 
-    loop {
+    'outer: loop {
         match rl.readline("> ") {
             Ok(line) => {
                 let input = line.trim();
@@ -63,7 +63,7 @@ fn main() -> Result<(), Box<dyn Error>> {
                         }
                         "exit" => {
                             println!("Goodbye!");
-                            return Ok(());
+                            break 'outer;
                         }
                         command => {
                             let stdin = match prev_stdout.take() {
@@ -101,9 +101,16 @@ fn main() -> Result<(), Box<dyn Error>> {
                     let _ = child.wait();
                 }
             }
+            Err(ReadlineError::Interrupted) | Err(ReadlineError::Eof) => {
+                println!("\nExiting minishell");
+                break;
+            }
             Err(err) => {
                 eprintln!("minishell: Error: {:?}", err);
             }
         }
     }
+
+    rl.save_history(history)?;
+    Ok(())
 }
