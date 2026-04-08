@@ -8,7 +8,41 @@ use std::{
 
 use rustyline::{DefaultEditor, error::ReadlineError};
 
+fn generate_prompt() -> String {
+    if let Ok(pathbuf) = env::current_dir()
+        && let Some(s) = pathbuf.to_str()
+    {
+        let mut s = String::from(s);
+        s.push_str("> ");
+        return s;
+    }
+    String::from("> ")
+}
+
+fn handle_cd(args: &Vec<&str>, prompt: &mut String) {
+    let new_dir = args.first().unwrap_or(&"/");
+
+    // redirect ~ to user's HOME
+    let mut root = PathBuf::new();
+    if new_dir.starts_with('~')
+        && let Some(home_dir) = dirs::home_dir()
+    {
+        root.push(home_dir);
+        root.push(new_dir[1..].trim_start_matches('/'));
+    } else {
+        root.push(new_dir);
+    }
+
+    if let Err(err) = env::set_current_dir(&root) {
+        eprintln!("cd: {}", err);
+    } else {
+        prompt.clear();
+        prompt.push_str(&generate_prompt());
+    }
+}
+
 fn main() -> Result<(), Box<dyn Error>> {
+    let mut prompt = generate_prompt();
     let mut rl = DefaultEditor::new()?;
     let history = "/tmp/.minishell_history";
     match rl.load_history(history) {
@@ -22,7 +56,7 @@ fn main() -> Result<(), Box<dyn Error>> {
     }
 
     'outer: loop {
-        match rl.readline("> ") {
+        match rl.readline(&prompt) {
             Ok(line) => {
                 let input = line.trim();
 
@@ -44,22 +78,7 @@ fn main() -> Result<(), Box<dyn Error>> {
 
                     match command {
                         "cd" => {
-                            let new_dir = args.first().unwrap_or(&"/");
-
-                            // redirect ~ to user's HOME
-                            let mut root = PathBuf::new();
-                            if new_dir.starts_with('~')
-                                && let Some(home_dir) = dirs::home_dir()
-                            {
-                                root.push(home_dir);
-                                root.push(new_dir[1..].trim_start_matches('/'));
-                            } else {
-                                root.push(new_dir);
-                            }
-
-                            if let Err(err) = env::set_current_dir(&root) {
-                                eprintln!("cd: {}", err);
-                            }
+                            handle_cd(&args, &mut prompt);
                         }
                         "exit" => {
                             println!("Goodbye!");
