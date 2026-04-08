@@ -16,6 +16,9 @@
   - Ref: <https://ruslanspivak.com/lsbasi-part1/>
 
 ## Tutorials
+- [MiniShell](projects/minishell)
+  - `cd projects/minishell && cargo run`
+  - Based on <https://micahkepe.com/blog/minishell/>
 - [Ray Tracing in One Weekend](projects/rtow)
   - `cmake -B build -S projects/rtow && cmake --build build && ./build/rtow > image.ppm`
   - Based on <https://raytracing.github.io/books/RayTracingInOneWeekend.html>
