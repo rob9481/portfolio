@@ -15,6 +15,14 @@
   - Ref: <https://craftinginterpreters.com/>
   - Ref: <https://ruslanspivak.com/lsbasi-part1/>
 
+## Starters
+
+- [C++](starters/cxx): Gtk4 & Qt6 with meson or CMake build
+  - CMake Build: `cd starters/cxx && cmake -Bbuild -S. && cmake --build build`
+  - Meson Build: `cd starters/cxx && meson setup build && meson compile -C build`
+  - Run (gtk): `./starters/cxx/build/starter_gtk`
+  - Run (qt): `./starters/cxx/build/starter_qt`
+
 ## Tutorials
 - [MiniShell](projects/minishell)
   - `cd projects/minishell && cargo run`
