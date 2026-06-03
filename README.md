@@ -9,6 +9,8 @@
 
 ## Projects
 
+- [AsyncProc](projects/asyncproc): Demo of Python's asyncio concurrency library
+  - `cd projects/asyncproc && uv run main.py --help`
 - [MLxx](projects/mlxx): An exceedingly small subset of the OCaml frontend in C++
   - `cmake -B build -S projects/mlxx && cmake --build build && ./build/mlxx`
   - Ref: <https://craftinginterpreters.com/>
