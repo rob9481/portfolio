@@ -1,9 +1,10 @@
-from random import shuffle
-import asyncio
 import argparse
+import asyncio
 import io
-import requests
+from random import shuffle
+
 import pandas as pd
+import requests
 import yfinance as yf
 
 
@@ -49,7 +50,7 @@ async def main():
     quotes = []
 
     async with asyncio.TaskGroup() as tg:
-        for symbol in try_shuffle(await symbols, args.random)[:args.count]:
+        for symbol in try_shuffle(await symbols, args.random)[: args.count]:
             t = tg.create_task(get_quote(symbol))
             t.add_done_callback(lambda t: quotes.append(t.result()))
     print(sorted(quotes))
