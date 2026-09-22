@@ -1,20 +1,20 @@
 # Portfolio
 
-## Exercises
-
-- [EvenPalindromes](exercises/EvenPalindromes.cpp): Quickly written implementation for finding all even 8-digit palindromes.
-  - https://interviewing.io/mocks/spotify-java-even-palindrome-generator
-- Newton's method for square root in [C++](exercises/newton.cpp) and [Python](exercises/newton.py)
-- [SleepySort](exercises/SleepySort.cpp): Sort by the amount of time a thread sleeps.
-
 ## Projects
 
 - [AsyncProc](projects/asyncproc): Demo of Python's asyncio concurrency library
   - `cd projects/asyncproc && uv run main.py --help`
-- [MLxx](projects/mlxx): An exceedingly small subset of the OCaml frontend in C++
+- [MLxx](projects/mlxx): A tiny subset of the OCaml frontend in C++
   - `cmake -B build -S projects/mlxx && cmake --build build && ./build/mlxx`
   - Ref: <https://craftinginterpreters.com/>
   - Ref: <https://ruslanspivak.com/lsbasi-part1/>
+
+## Exercises
+
+- [EvenPalindromes](exercises/EvenPalindromes.cpp): Quickly written implementation for finding all even 8-digit palindromes.
+  - <https://interviewing.io/mocks/spotify-java-even-palindrome-generator>
+- Newton's method for square root in [C++](exercises/newton.cpp) and [Python](exercises/newton.py)
+- [SleepySort](exercises/SleepySort.cpp): Sort by the amount of time a thread sleeps.
 
 ## Starters
 
@@ -25,6 +25,7 @@
   - Run (qt): `./starters/cxx/build/starter_qt`
 
 ## Tutorials
+
 - [MiniShell](projects/minishell)
   - `cd projects/minishell && cargo run`
   - Based on <https://micahkepe.com/blog/minishell/>
