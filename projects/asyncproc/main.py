@@ -50,15 +50,13 @@ def getParser():
 
 async def main():
     args = getParser().parse_args()
-    symbols = get_nasdaq_symbols()
-
-    # not thread-safe, but we're using concurrency not threads.
-    quotes = []
-
-    async with asyncio.TaskGroup() as tg:
-        for symbol in try_shuffle(await symbols, args.random)[: args.count]:
-            t = tg.create_task(get_quote(symbol))
-            t.add_done_callback(lambda t: quotes.append(t.result()))
+    symbols = await get_nasdaq_symbols()
+    quotes = await asyncio.gather(
+        *[
+            get_quote(symbol)
+            for symbol in try_shuffle(symbols, args.random)[: args.count]
+        ]
+    )
     print(sorted(quotes))
 
 
