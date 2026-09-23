@@ -28,7 +28,7 @@ async def get_nasdaq_symbols() -> list[str]:
     for table in tables:
         if table.columns[0] == "Ticker":
             return table["Ticker"].to_list()
-    return None
+    return []
 
 
 async def get_quote(symbol: str) -> tuple[str, float]:
