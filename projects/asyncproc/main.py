@@ -8,11 +8,17 @@ import requests
 import yfinance as yf
 
 
+async def to_async(thunk):
+    return await asyncio.get_event_loop().run_in_executor(None, thunk)
+
+
 async def get_wiki(name: str) -> requests.Response:
     headers = {
         "User-Agent": "Mozilla/5.0",
     }
-    return requests.get(f"https://en.wikipedia.org/wiki/{name}", headers=headers)
+    return await to_async(
+        lambda: requests.get(f"https://en.wikipedia.org/wiki/{name}", headers=headers)
+    )
 
 
 async def get_nasdaq_symbols() -> list[str]:
@@ -24,9 +30,9 @@ async def get_nasdaq_symbols() -> list[str]:
     return None
 
 
-async def get_quote(symbol: str) -> float:
-    ticker = yf.Ticker(symbol)
-    return symbol, ticker.info["currentPrice"]
+async def get_quote(symbol: str) -> tuple[str, float]:
+    info = await to_async(lambda: yf.Ticker(symbol).info)
+    return symbol, info["currentPrice"]
 
 
 def try_shuffle(lst: list[str], value: bool):
