@@ -1,5 +1,6 @@
 import argparse
 import asyncio
+import json
 import io
 from random import shuffle
 
@@ -48,6 +49,18 @@ def getParser():
     return parser
 
 
+def to_dict_list(quotes) -> list[dict[str, str | float]]:
+    result = []
+    for symbol, price in quotes:
+        result.append(
+            {
+                "symbol": symbol,
+                "price": price,
+            }
+        )
+    return result
+
+
 async def main():
     args = getParser().parse_args()
     symbols = await get_nasdaq_symbols()
@@ -57,7 +70,7 @@ async def main():
             for symbol in try_shuffle(symbols, args.random)[: args.count]
         ]
     )
-    print(sorted(quotes))
+    print(json.dumps(to_dict_list(sorted(quotes))))
 
 
 if __name__ == "__main__":
