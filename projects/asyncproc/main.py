@@ -68,8 +68,10 @@ async def main():
         *[
             get_quote(symbol)
             for symbol in try_shuffle(symbols, args.random)[: args.count]
-        ]
+        ],
+        return_exceptions=True,
     )
+    quotes = filter(lambda q: not isinstance(q, BaseException), quotes)
     print(json.dumps(to_dict_list(sorted(quotes))))
 
 
